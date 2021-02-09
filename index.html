@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="icon" href="/static/main/image/favicon.ico">
+    <script src="/static/main/js/jquery-3.5.1.min.js"></script>
+    <script src="/static/vue.min.js"></script>
+    <script src="/static/vue-resource.js"></script>
+    <script src="http://mockjs.com/dist/mock.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <ul>
+    <li v-for="c in class_info">{{ c.class_num }} -- {{ c.class_name }} -- {{ c.entrance_time }} -- {{ c.college }}</li>
+    </ul>
+    <textarea name="" id="" cols="50" rows="100">{[ class_info ]}</textarea>
+</div>
+
+<script src="/static/main/js/index.js"></script>
+<script type="text/javascript">
+    Vue.use(VueResource);
+    var app = new Vue({
+        // delimiters: ['{[', ']}'],
+        el: "#app",
+        data: {
+            class_info: []
+        },
+        created: function () {
+            let url = "/api/buyer";
+            this.$http.get(url).then(function (data) {
+                    console.log("=====================================");
+                    this.class_info = data["data"]["data"];
+
+                    console.log(data["data"]["data"]);
+                    console.log(typeof data["data"]["data"]);
+                },
+                function (error) {
+                    console.log("++++++++++++++++++++++++++++++++++++");
+                    console.log(error);
+                }
+            );
+        }
+    })
+</script>
+</body>
+</html>
