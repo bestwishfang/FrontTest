@@ -12,7 +12,7 @@ $.ajax({
         console.log("+++++++++++++++===");
         console.log(data);
     },
-    error:function (error) {
+    error: function (error) {
         console.log("======================");
         console.log(error);
     }
