@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo</title>
+    <script src="static/js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+
+<div>
+    <p>Hello</p>
+    <!--        <form action="" method="post" class="form" role="form">-->
+    <!--            <div class="form-group required">-->
+    <!--                <label class="form-control-label" for="mongodb_ip">MongoDB IP</label>-->
+    <!--                <input class="form-control" id="mongodb_ip" name="mongodb_ip" required="" type="text" value="">-->
+    <!--            </div>-->
+    <!--            <div class="form-group required">-->
+    <!--                <label class="form-control-label" for="nodes">NodeInfo</label>-->
+    <!--                <textarea class="form-control" id="nodes" name="nodes" required=""></textarea>-->
+    <!--            </div>-->
+    <!--            <div class="form-group required">-->
+    <!--            &lt;!&ndash;            <label class="form-control-label" for="captcha">天王盖地虎</label>&ndash;&gt;-->
+    <!--            &lt;!&ndash;            <input class="form-control" id="captcha" name="captcha" required="" type="text" value="">&ndash;&gt;-->
+    <!--            </div>-->
+    <!--            <input class="btn btn-secondary" id="submit" name="submit" type="submit" value="Submit">-->
+    <!--        </form>-->
+</div>
+
+<script src="static/js/demo.js"></script>
+</body>
+<script>
+    let flows = {
+            initial_flow: [],
+            tunable_flow: [],
+            cavity_detecte_flow: [],
+            qubit_detecte_flow: [],
+            pi_pulse_detecte_flow: ["rabi_scan_amp_node"],
+            readout_calibrate_flow: ["probe_freq_cali_node", "probe_power_cali_node", "single_shot_node"],
+            qubit_freq_calibrate_flow: [],
+            qubit_optimizate_flow: [],
+            }
+    let data = {
+            server_ip: "10.10.12.147",
+            flows: flows,
+        };
+
+    $.ajax({
+        type: "POST",
+        url: "http://10.10.12.147:5000/execute",
+        //url: "http://httpbin.org/post",
+        data: JSON.stringify(data),
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        success: function (res) {
+            console.log("+++++++++++++++===");
+            console.log(res);
+        },
+        error: function (error) {
+            console.log("======================");
+            console.log(error);
+        }
+    });
+
+</script>
+</html>
